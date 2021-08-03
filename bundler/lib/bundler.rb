@@ -36,7 +36,7 @@ require_relative "bundler/build_metadata"
 module Bundler
   environment_preserver = EnvironmentPreserver.from_env
   ORIGINAL_ENV = environment_preserver.restore
-  environment_preserver.replace_with_backup
+  environment_preserver.backup
   SUDO_MUTEX = Thread::Mutex.new
 
   autoload :Definition,             File.expand_path("bundler/definition", __dir__)

@@ -36,31 +36,16 @@ module Bundler
       @prefix = BUNDLER_PREFIX
     end
 
-    # Replaces `ENV` with the bundler environment variables backed up
-    def replace_with_backup
-      ENV.replace(backup) unless Gem.win_platform?
-
-      # Fallback logic for Windows below to workaround
-      # https://bugs.ruby-lang.org/issues/16798. Can be dropped once all
-      # supported rubies include the fix for that.
-
-      ENV.clear
-
-      backup.each {|k, v| ENV[k] = v }
-    end
-
-    # @return [Hash]
+    # Adds a backup of bundler-related keys to ENV
     def backup
-      env = @original.clone
       @keys.each do |key|
-        value = env[key]
+        value = ENV[key]
         if !value.nil? && !value.empty?
-          env[@prefix + key] ||= value
+          ENV[@prefix + key] ||= value
         elsif value.nil?
-          env[@prefix + key] ||= INTENTIONALLY_NIL
+          ENV[@prefix + key] ||= INTENTIONALLY_NIL
         end
       end
-      env
     end
 
     # @return [Hash]
