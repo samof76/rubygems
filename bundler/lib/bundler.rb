@@ -34,7 +34,7 @@ require_relative "bundler/build_metadata"
 # of loaded and required modules.
 #
 module Bundler
-  ENV.inpect
+  ENV.inspect
   environment_preserver = EnvironmentPreserver.from_env
   ORIGINAL_ENV = environment_preserver.restore
   environment_preserver.backup
